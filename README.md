@@ -1,45 +1,40 @@
 # IRCTC Railway Management System
 
-# Problem Statement
+## Problem Statement
 
 Hey there, Mr. X. You have been appointed to design a railway management system like IRCTC, where users can come on the platform and check if there are any trains available between two stations. The app will also display how many seats are available between any two stations, and the user can book a seat if the availability is greater than 0 after logging in. Since this has to be real-time and multiple users can book seats simultaneously, your code must be optimized enough to handle large traffic and should not fail while doing any bookings. If more than one user simultaneously tries to book seats, only one of the users should be able to book. Handle such race conditions while booking.
 
-# Overview
+---
 
-This Railway Management System enables train seat bookings, checks train availability, updates train details, and enforces role-based access control. The backend is built using Node.js, Express.js, and MySQL.
+This project is a **Railway Management System** designed to simulate key functionalities of the IRCTC system. The system enables train seat bookings, checks for train availability, updates train details, and ensures role-based access for users and admins. The backend is built using **Node.js**, **Express.js**, and **MySQL**.
 
-# Features
+## Features
 
-User authentication (registration & login)
+- User registration and login
+- JWT-based authentication for secure access
+- Check available trains between source and destination
+- Book train seats with race condition handling
+- Admin functionalities: add new trains, update seat availability, etc.
+- Role-based access (admin/user)
+- Error handling and input validation
 
-1.JWT-based secure access
+---
 
-2.Train availability check
+## Project Setup
 
-3.Real-time seat booking with race condition handling
+### Prerequisites
 
-4.Admin functionalities (add/update train details, seat availability)
+To run this project, ensure you have the following installed:
 
-5.Role-based access (Admin/User)
+- [Node.js](https://nodejs.org/en/) (v14 or later)
+- [MySQL](https://www.mysql.com/) (Database setup)
+- [Postman](https://www.postman.com/) (for API testing)
 
-6.Error handling & input validation
+### Environment Variables
 
-# Project Setup
+You need to create a `.env` file in the root of your project with the following environment variables:
 
-# Prerequisites
-
-Ensure the following are installed:
-
-Node.js (v14+)
-
-MySQL
-
-Postman (for API testing)
-
-# Environment Variables
-
-Create a .env file in the root directory with:
-
+``` bash
 PORT=3000
 DB_HOST=localhost
 DB_USER=root
@@ -47,15 +42,31 @@ DB_PASSWORD=yourpassword
 DB_NAME=irctc_db
 JWT_SECRET=your_jwt_secret
 API_KEY=your_admin_api_key
+```
 
-# Installation
+### Installation
 
-1. Clone the repository: https://github.com/Hiomio/WorkIndia_Assignment-.git
-2. Install dependencies: npm install
-3. Setup MySQL database:
-   CREATE DATABASE irctc_db;
-# USE irctc_db;
-a. CREATE TABLE users (
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/Hiomio/WorkIndia_Assignment-.git
+   cd irctc-railway-management
+   ```
+   
+2. Install all necessary dependencies using npm:
+   
+   ```bash
+    npm install
+   ```
+4. Set up your MySQL database:
+  * Create a MySQL database named irctc_db.
+  * Run the SQL scripts in database/schema.sql to create necessary tables (users, trains, bookings).
+
+ Example:
+ ``` bash
+ CREATE DATABASE irctc_db;
+USE irctc_db;
+
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -63,7 +74,8 @@ a. CREATE TABLE users (
     role ENUM('user', 'admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-b. CREATE TABLE trains (
+
+CREATE TABLE trains (
     id INT AUTO_INCREMENT PRIMARY KEY,
     train_number VARCHAR(50) NOT NULL,
     source VARCHAR(255) NOT NULL,
@@ -72,45 +84,65 @@ b. CREATE TABLE trains (
     available_seats INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-c. CREATE TABLE bookings (
+
+CREATE TABLE bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     train_id INT,
     seats INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (train_id) REFERENCES trains(id) );
+    FOREIGN KEY (train_id) REFERENCES trains(id)
+);
+```
 
-  # Start Server 
-  By default, the server runs on http://localhost:3000.
+### Starting the Server
+Once the setup is complete, start the server using npm:
 
+```bash
+npm start
 
-# API Endpoints 
-User Route
-1. Register a new user
-   * HTTP Method :- POST
-   * Endpoint :- http://localhost:3000/user/register
-   * Body:
-            {
+```
+#### Note :- By default, the server will run on port 3000. You can access the API at http://localhost:3000.
+
+### API Endpoints
+
+#### User Routes
+    1. Register a new user
+       * HTTP Method :- POST
+       * Endpoint :- http://localhost:3000/user/register
+       * Body:
+       
+``` bash
+       {
   "name": "John Doe",
   "email": "john@example.com",
   "password": "password"
       }
-2 . Login
-HTTP Method :- POST
-Endpoint :- http://localhost:3000/user/login  
-Body:
+
+```
+
+  2. Login
+       * HTTP Method :- POST
+       * Endpoint :- http://localhost:3000/user/login
+       * Body:
+       
+``` bash
     {
   "email": "john@example.com",
   "password": "password"
     }
-3. Check Train Availability:
-    HTTP Method :- GET
-Endpoint :- http://localhost:3000/user/availability?source=Ranchi&destination=Delhi
-Query Parameters
-source: Source station (e.g., "Ranchi")
-destination: Destination station (e.g., "Delhi")
-Response:
+ ```
 
+
+  3. Check train availability
+   
+       * HTTP Method :- GET
+       * Endpoint :- http://localhost:3000/user/availability?source=Ranchi&destination=Delhi
+       * Query Parameters
+          * source: Source station (e.g., "Ranchi")
+          * destination: Destination station (e.g., "Delhi")
+       * Response:
+``` bash
 {
   "available": true,
   "availableTrainCount": 1,
@@ -122,30 +154,39 @@ Response:
   ]
 }
 
-4 .Book Seats
-HTTP Method :- POST
-Endpoint :- http://localhost:3000/user/book
-Request Body:
+```
 
+ 4. Book Seats
+       * HTTP Method :- POST
+       * Endpoint :- http://localhost:3000/user/book
+       * Request Body:
+       
+``` bash
   {
   "trainId": 1,
   "seatsToBook": 2
 }
-Response:
+
+```
+ * Response:
+
+```bash
 {
   "message": "Seats booked successfully"
 }
+```
 
 Note :- Requires JWT authentication.
 
-5. Booking Details
+5.  Booking Details
 
-HTTP Method :- GET
+       * HTTP Method :- GET
+       * Endpoint :- http://localhost:3000/user/getAllbookings
 
-Endpoint :- http://localhost:3000/user/getAllbookings
-
-Response:
-
+       * Response:
+  
+    
+```bash
 [
     {
         "booking_id": 17,
@@ -156,14 +197,20 @@ Response:
     }
 ]
 
-# Admin Routes
-1. Add a new train
-   HTTP Method :- POST
 
-Endpoint :- http://localhost:3000/admin/addTrain
+```
 
-Request Body:
+#### Admin Routes
 
+1.   Add a new train
+
+       * HTTP Method :- POST
+       * Endpoint :- http://localhost:3000/admin/addTrain
+
+       * Request Body:
+  
+    
+```bash
 {
     "message": "Trains added successfully",
     "trainIds": [
@@ -173,30 +220,39 @@ Request Body:
         }
     ]
   }
+```
 
-       * Headers :
-         * x-api-key: Your admin API key which is stored in .env
-2. Update seat availability
+         * Headers :
+             * x-api-key: Your admin API key which is stored in .env
 
-HTTP Method :- PUT
-Endpoint :- http://localhost:3000/admin/update-seats/10
-Request Body:
 
+  2. Update seat availability
+
+       * HTTP Method :- PUT
+       * Endpoint :- http://localhost:3000/admin/update-seats/10
+       * Request Body:
+```bash
  {
   "totalSeats": 200,
   "availableSeats": 150
  }
+```
+       * Response:
 
-    * Response:
-  {
+       
+```bash
+{
   "message": "Seats updated successfully"
 }
+ ```
+        * Headers:
+            * x-api-key:  Your admin API key which is stored in .env 
 
-    * Headers:
-        * x-api-key:  Your admin API key which is stored in .env 
-        # Running Tests
+### Running Tests
+
 You can test all the available APIs using Postman. The endpoints are well-structured and follow RESTful conventions.
 
+```bash
 [
   {
     "trainNumber": "123123",
@@ -229,25 +285,46 @@ You can test all the available APIs using Postman. The endpoints are well-struct
     "totalSeats": 600
   }
 ]
+```
 
-# Technologies Used
-1.Node.js: For backend logic
-2.Express.js: Web framework for building the RESTful API
-3.MySQL: Database for storing train, user, and booking data
-4.JWT: For authentication and authorization
-5.bcrypt: For hashing the passwords
-6.dotenv: For managing environment variables
+### Technologies Used
 
-# Future Enhancements
-1.Add frontend interface using React or Angular
-2.Implement seat selection
+* Node.js: For backend logic
+* Express.js: Web framework for building the RESTful API
+* MySQL: Database for storing train, user, and booking data
+* JWT: For authentication and authorization
+* bcrypt: For hashing the passwords
+* dotenv: For managing environment variables
 
-Feel free to fork this repository and contribute via pull requests. Any bug fixes, enhancements, or suggestions are welcome!
+### Future Enhancements
+* Add frontend interface using React or Angular
+* Implement seat selection
+* Add email notifications for booking confirmations
+* Integrate payment gateway
 
-🚀 Happy Coding!
+### Contributing
+Feel free to fork the repository and make your contributions via pull requests. Any enhancements, bug fixes, or suggestions are welcome!
 
 
 
+
+      
+
+      
+
+
+      
+
+
+
+
+
+
+
+
+
+   
+   
 
 
 
