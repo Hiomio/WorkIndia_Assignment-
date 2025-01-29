@@ -299,13 +299,6 @@ You can test all the available APIs using Postman. The endpoints are well-struct
 ### Future Enhancements
 * Add frontend interface using React or Angular
 * Implement seat selection
-* Add email notifications for booking confirmations
-* Integrate payment gateway
-
-### Contributing
-Feel free to fork the repository and make your contributions via pull requests. Any enhancements, bug fixes, or suggestions are welcome!
-
-
 
 
       
