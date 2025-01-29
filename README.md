@@ -148,20 +148,7 @@ Note :- Requires JWT authentication.
        * HTTP Method :- POST
        * Endpoint :- http://localhost:3000/admin/addTrain
 
-       * Request Body:
-  
-    
-```bash
-{
-    "message": "Trains added successfully",
-    "trainIds": [
-        {
-            "trainNumber": "172622",
-            "trainId": 21
-        }
-    ]
-  }
-```
+
 
          * Headers :
              * x-api-key: Your admin API key which is stored in .env
