@@ -54,8 +54,8 @@ API_KEY=your_admin_api_key
 2. Install dependencies: npm install
 3. Setup MySQL database:
    CREATE DATABASE irctc_db;
-USE irctc_db;
-CREATE TABLE users (
+# USE irctc_db;
+a. CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE users (
     role ENUM('user', 'admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE trains (
+b. CREATE TABLE trains (
     id INT AUTO_INCREMENT PRIMARY KEY,
     train_number VARCHAR(50) NOT NULL,
     source VARCHAR(255) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE trains (
     available_seats INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE bookings (
+c. CREATE TABLE bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     train_id INT,
