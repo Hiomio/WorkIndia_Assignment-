@@ -110,29 +110,13 @@ npm start
     1. Register a new user
        * HTTP Method :- POST
        * Endpoint :- http://localhost:3000/user/register
-       * Body:
        
-``` bash
-       {
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password"
-      }
-
-```
+       
 
   2. Login
        * HTTP Method :- POST
        * Endpoint :- http://localhost:3000/user/login
-       * Body:
-       
-``` bash
-    {
-  "email": "john@example.com",
-  "password": "password"
-    }
- ```
-
+      
 
   3. Check train availability
    
@@ -141,40 +125,13 @@ npm start
        * Query Parameters
           * source: Source station (e.g., "Ranchi")
           * destination: Destination station (e.g., "Delhi")
-       * Response:
-``` bash
-{
-  "available": true,
-  "availableTrainCount": 1,
-  "trains": [
-    {
-      "trainNumber": "123123",
-      "availableSeats": 600
-    }
-  ]
-}
 
-```
 
  4. Book Seats
        * HTTP Method :- POST
        * Endpoint :- http://localhost:3000/user/book
-       * Request Body:
+
        
-``` bash
-  {
-  "trainId": 1,
-  "seatsToBook": 2
-}
-
-```
- * Response:
-
-```bash
-{
-  "message": "Seats booked successfully"
-}
-```
 
 Note :- Requires JWT authentication.
 
@@ -183,22 +140,6 @@ Note :- Requires JWT authentication.
        * HTTP Method :- GET
        * Endpoint :- http://localhost:3000/user/getAllbookings
 
-       * Response:
-  
-    
-```bash
-[
-    {
-        "booking_id": 17,
-        "number_of_seats": 50,
-        "train_number": "123123",
-        "source": "Ranchi",
-        "destination": "Delhi"
-    }
-]
-
-
-```
 
 #### Admin Routes
 
@@ -230,62 +171,10 @@ Note :- Requires JWT authentication.
 
        * HTTP Method :- PUT
        * Endpoint :- http://localhost:3000/admin/update-seats/10
-       * Request Body:
-```bash
- {
-  "totalSeats": 200,
-  "availableSeats": 150
- }
-```
-       * Response:
 
-       
-```bash
-{
-  "message": "Seats updated successfully"
-}
- ```
         * Headers:
             * x-api-key:  Your admin API key which is stored in .env 
 
-### Running Tests
-
-You can test all the available APIs using Postman. The endpoints are well-structured and follow RESTful conventions.
-
-```bash
-[
-  {
-    "trainNumber": "123123",
-    "source": "Ranchi",
-    "destination": "Delhi",
-    "totalSeats": 300
-  },
-  {
-    "trainNumber": "124124",
-    "source": "Ranchi",
-    "destination": "Delhi",
-    "totalSeats": 350
-  },
-  {
-    "trainNumber": "125125",
-    "source": "Ranchi",
-    "destination": "Delhi",
-    "totalSeats": 400
-  },
-  {
-    "trainNumber": "126126",
-    "source": "Ranchi",
-    "destination": "Delhi",
-    "totalSeats": 500
-  },
-  {
-    "trainNumber": "127127",
-    "source": "Ranchi",
-    "destination": "Delhi",
-    "totalSeats": 600
-  }
-]
-```
 
 ### Technologies Used
 
