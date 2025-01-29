@@ -1,22 +1,24 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const authRoutes = require("./routes/authRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
-const trainRoutes = require("./routes/trainRoutes");
-const userRoutes = require("./routes/userRoutes");
-const errorMiddleware = require("./middlewares/errorMiddleware");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+import adminRoutes from "./routes/adminRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import apiKeyMiddleware from "./middlewares/apiKeyMiddleware.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(express.json());
+app.use(cors()); // Enable CORS for cross-origin requests
+app.use(apiKeyMiddleware);
 
-app.use("/auth", authRoutes);
-app.use("/bookings", bookingRoutes);
-app.use("/trains", trainRoutes);
-app.use("/users", userRoutes);
-
-app.use(errorMiddleware.errorHandler);
+// Routes
+app.use("/admin", authMiddleware, adminRoutes); // Protect admin routes with authMiddleware
+app.use("/user", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
